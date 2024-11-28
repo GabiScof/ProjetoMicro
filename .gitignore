@@ -1,0 +1,6 @@
+# Ignorar a pasta env_proj
+env_proj/
+
+# Ignorar a pasta de músicas (substitua 'musicas' pelo nome correto da pasta)
+musicas/
+wav/
