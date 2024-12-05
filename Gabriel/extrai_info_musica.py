@@ -5,6 +5,13 @@ import matplotlib.pyplot as plt
 import json
 
 def normalize_to_100(values):
+    '''
+    Função para normalizar os valores entre 0 e 100.
+
+    Explicação do cálculo:
+    (val - min_val) / (max_val - min_val) --> Normaliza valores entre 0 e 1
+    Multiplicando por 100 --> Normaliza valores entre 0 e 100
+    '''
     min_val = min(values)
     max_val = max(values)
     
@@ -16,6 +23,13 @@ def normalize_to_100(values):
     return normalized_values
 
 def normalize_to_255(values):
+    '''
+    Função para normalizar os valores entre 0 e 255.
+
+    Explicação do cálculo:
+    (val - min_val) / (max_val - min_val) --> Normaliza valores entre 0 e 1
+    Multiplicando por 255 --> Normaliza valores entre 0 e 255
+    '''
     min_val = min(values)
     max_val = max(values)
     
@@ -27,11 +41,25 @@ def normalize_to_255(values):
     return normalized_values
 
 def perform_stft(y):
+    '''
+    Calcula a Transformada de Fourier de Curto Prazo (STFT) de um sinal de áudio.
+    Transforma o sinal de áudio em um domínio tempo-frequência (frequências e magnitudes ao longo do tempo).
+
+    Retorna um array bidimensional que contém os coeficientes complexos da STFT: 
+       linhas --> representam as frequências (ou bins de frequencia)
+       colunas --> representam o tempo (janelas)
+    '''
     # Perform Short-Time Fourier Transform (STFT)
     D = librosa.stft(y)
     return D
 
 def get_audio_length(y, sr):
+    ''' 
+    Calcula a duração total do aúdio em segundos.
+
+    y --> Array com amplitudes do sinal em cada ponto
+    sr --> Número de amostras por segundo
+    '''
     # Calculate the length of the audio in seconds
     length_in_seconds = len(y) / sr
     return length_in_seconds
