@@ -311,12 +311,17 @@ exit_button_music.grid(column=1, row=7)
 pose_atual_braco = None
 pose_atual_perna = None
 pose_anterior_braco = "Nada"
+pose_anterior_perna = "Nada"
+
 
 ultimo_tempo_deteccao = time.time()
+ultimo_tempo_deteccao_perna = time.time()
 
 contador = 0 
+contador_perna = 0
 
 impressa = False
+impressa_perna = False
 
 
 '''
@@ -356,10 +361,18 @@ def start_video_processing():
             # Chama as variáveis globais das posições atuais 
             global pose_atual_braco
             global pose_atual_perna
+
             global pose_anterior_braco
+            global pose_anterior_perna
+
             global ultimo_tempo_deteccao
+            global ultimo_tempo_deteccao_perna
+
             global contador
+            global contador_perna
+
             global impressa
+            global impressa_perna
 
             # Desenha os landmarks na imagem
             mp_draw.draw_landmarks(frame, result.pose_landmarks, mp_pose.POSE_CONNECTIONS)
@@ -495,7 +508,7 @@ def start_video_processing():
                         contador +=1
 
                     # Verifica que a pose está há um tempo (contador) e que ainda não foi impressa
-                    if contador > 15 and not impressa:
+                    if contador > 6 and not impressa:
                         impressa = True # Indica que já foi impressa
                         print(pose_atual_braco) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
                         # envia_pose(arduino, braco, pose_atual_braco) # BACALHAU
@@ -518,14 +531,42 @@ def start_video_processing():
             #-----------------------------------------------------------------------------------------------------------------------------------
             
             # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses das PERNAS
+
+            detecado_perna = False
+
             for movimento, angulos in dicionario_poses_pernas.items():
                 if angulos["condicao"](anguloPEC, anguloPEB, anguloPDC, anguloPDB):
+                    detecado_perna = True
                     cor = (255, 105, 180)
                     texto = movimento
                     coord1 = 10
                     coord2 = 250
                     pose_atual_perna = movimento
                     funcao_texto(texto, cor, frame, coord1, coord2)
+
+                    # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
+                    if pose_atual_perna == pose_anterior_perna:
+                        contador_perna +=1
+
+                    # Verifica que a pose está há um tempo (contador_perna) e que ainda não foi impressa
+                    if contador_perna > 10 and not impressa_perna:
+                        impressa_perna = True # Indica que já foi impressa
+                        print('Perna: ', pose_atual_perna) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
+                        # envia_pose(arduino, perna, pose_atual_perna) # BACALHAU
+
+                    # Verifica que a pose atual é diferente da pose anterior
+                    if pose_atual_perna != pose_anterior_perna:
+                        contador_perna = 0 # Reseta contador_perna
+                        impressa_perna = False # Indica que ainda não foi impressa (já que é pose nova)
+                        pose_anterior_perna = pose_atual_perna # Atualiza a pose anterior
+                        ultimo_tempo_deteccao_perna = time.time() # Salva tempo de troca de pose
+                    break
+
+            if not detecado_perna: # Verifica que nenhuma pose foi detectada
+                if (time.time() - ultimo_tempo_deteccao_perna > 3) and pose_atual_perna != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
+                    pose_atual_perna = 'Nada'
+                    print('Perna: ', pose_atual_perna)  # Apenas imprime "Nada" após 3 segundos de inatividade
+                    # envia_pose(arduino, perna, pose_atual_perna) # BACALHAU
 
 
 
@@ -553,10 +594,9 @@ def start_video_processing():
 
 thread = threading.Thread(target=start_video_processing, daemon=True)
 thread.start()
-thread2 = threading.Thread(target=serial_monitora, daemon=True)
-thread2.start()
-
+#thread2 = threading.Thread(target=serial_monitora, args=(arduino), daemon=True)
+#thread2.start()
+# BACALHAU
 
 update_time() 
 root.mainloop() 
-# serial_monitora(arduino)
