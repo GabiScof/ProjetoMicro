@@ -3,7 +3,7 @@ import serial
 __all__ = ['envia_pose', 'envia_string', 'serial_monitora']
 
 
-def envia_pose(arduino, membro_do_corpo ,string):
+def envia_pose(arduino, pose_perna, pose_braco):
     ''' 
     Função que envia a pose (string) para o Arduino.
 
@@ -11,7 +11,7 @@ def envia_pose(arduino, membro_do_corpo ,string):
     pois a função no Arduino foi definida de forma que precisa receber 
     um identificador para saber se deve executar os movimentos das pernas ou braços.
     '''
-    arduino.write(('Movimento danca' + str(membro_do_corpo) + " " + str(string) +"\n").encode("UTF-8") )  
+    arduino.write(('Movimento ' + str(pose_perna) + " " + str(pose_braco) +"\n").encode("UTF-8") )  
     # print('Enviado pro arduino!')
     return 
 

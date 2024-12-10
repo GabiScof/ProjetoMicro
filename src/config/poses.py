@@ -2,7 +2,7 @@ __all__ = ['dicionario_poses', 'dicionario_poses_pernas']
 
 
 dicionario_poses = {
-    "cristo redentor": {
+    "cristo_redentor": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (90 - 30) <= anguloBEC <= (90 + 30) and
             (90 - 30) <= anguloBEB <= (90 + 30) and
@@ -10,7 +10,7 @@ dicionario_poses = {
             (90 - 30) <= anguloBDB <= (90 + 30)
         )
     },
-    "maos pro alto": {
+    "maos_pro_alto": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (180 - 30) <= anguloBDC <= (180 + 30) and
             (180 - 30) <= anguloBDB <= (180 + 30) and
@@ -18,7 +18,7 @@ dicionario_poses = {
             (180 - 30) <= anguloBEB <= (180 + 30)
         )
     },
-    "maos pra baixo": {
+    "maos_pra_baixo": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (0 - 30) <= anguloBDC <= (0 + 30) and
             (0 - 30) <= anguloBDB <= (0 + 30) and
@@ -26,7 +26,7 @@ dicionario_poses = {
             (0 - 30) <= anguloBEB <= (0 + 30)
         )
     },
-    "esquerda cima direita baixo": {
+    "esquerda_cima_direita_baixo": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (180 - 30) <= anguloBEC <= (180 + 30) and
             (180 - 30) <= anguloBEB <= (180 + 30) and
@@ -34,7 +34,7 @@ dicionario_poses = {
             (0 - 30) <= anguloBDB <= (0 + 30)
         )
     },
-    "direita cima esquerda baixo": {
+    "direita_cima_esquerda_baixo": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (180 - 30) <= anguloBDC <= (180 + 30) and
             (180 - 30) <= anguloBDB <= (180 + 30) and
@@ -42,7 +42,7 @@ dicionario_poses = {
             (0 - 30) <= anguloBEB <= (0 + 30)
         )
     },
-    "formato U":
+    "formato_U":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (90 - 30) <= anguloBDC <= (90 + 30) and
@@ -51,7 +51,7 @@ dicionario_poses = {
             (180 - 30) <= anguloBEB <= (180 + 30)
         )
     },
-    "formato U invertido":
+    "formato_U_invertido":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (90 - 30) <= anguloBDC <= (90 + 30) and
@@ -60,7 +60,7 @@ dicionario_poses = {
             (0 - 30) <= anguloBEB <= (0 + 30)
         )
     },
-    "formato S":
+    "formato_S":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (90 - 30) <= anguloBDC <= (90 + 30) and
@@ -69,7 +69,7 @@ dicionario_poses = {
             (180 - 30) <= anguloBEB <= (180 + 30)
         )
     },
-    "formato Ƨ":
+    "formato_S_espelhado":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (90 - 30) <= anguloBEC <= (90 + 30) and
@@ -78,7 +78,7 @@ dicionario_poses = {
             (180 - 30) <= anguloBDB <= (180 + 30)
         )
     },
-    "disco move":
+    "disco_move":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (45 - 30) <= anguloBEC <= (45 + 30) and
@@ -87,7 +87,7 @@ dicionario_poses = {
             (135 - 30) <= anguloBDB <= (135 + 30)
         )
     },
-    "disco-disco move":
+    "disco_disco_move":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (45 - 30) <= anguloBDC <= (45 + 30) and
@@ -114,7 +114,7 @@ dicionario_poses = {
             (135 - 30) <= anguloBEB <= (135 + 30)
         )
     },
-     "maos na cabeca":
+     "maos_na_cabeca":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
             (90 - 30) <= anguloBDC <= (90 + 30) and
@@ -152,7 +152,7 @@ dicionario_poses_pernas = {
             (90 - 30) <= angulo_PDB <= (90 + 30)
         )
     },
-    "chuta esquerdo": {
+    "chuta_esquerdo": {
         "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
             (90 - 30) <= angulo_PEC <= (90 + 30) and
             (90 - 30) <= angulo_PEB <= (90 + 30) and
@@ -160,7 +160,7 @@ dicionario_poses_pernas = {
             (0 - 30) <= angulo_PDB <= (90 + 30)
         )
     },
-    "chuta direito": {
+    "chuta_direito": {
         "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
             (0 - 30) <= angulo_PEC <= (90 + 30) and
             (0 - 30) <= angulo_PEB <= (90 + 30) and
@@ -168,7 +168,7 @@ dicionario_poses_pernas = {
             (90 - 30) <= angulo_PDB <= (90 + 30)
         )
     },
-    "dobra direita": {
+    "dobra_direita": {
         "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
             (90 - 30) <= angulo_PEC <= (90 + 30) and
             (0 - 30) <= angulo_PEB <= (0 + 30) and
@@ -176,7 +176,7 @@ dicionario_poses_pernas = {
             (0 - 30) <= angulo_PDB <= (0 + 30)
         )
     },
-    "dobra esquerda": {
+    "dobra_esquerda": {
         "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
             (0 - 30) <= angulo_PEC <= (90 + 30) and
             (0 - 30) <= angulo_PEB <= (0 + 30) and
