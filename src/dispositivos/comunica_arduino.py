@@ -11,7 +11,7 @@ def envia_pose(arduino, membro_do_corpo ,string):
     pois a função no Arduino foi definida de forma que precisa receber 
     um identificador para saber se deve executar os movimentos das pernas ou braços.
     '''
-    arduino.write((str(membro_do_corpo) + " " + str(string) +"\n").encode("UTF-8") )  
+    arduino.write(('Movimento danca' + str(membro_do_corpo) + " " + str(string) +"\n").encode("UTF-8") )  
     # print('Enviado pro arduino!')
     return 
 

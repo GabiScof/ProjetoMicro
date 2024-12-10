@@ -511,7 +511,7 @@ def start_video_processing():
                     if contador > 6 and not impressa:
                         impressa = True # Indica que já foi impressa
                         print(pose_atual_braco) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
-                        # envia_pose(arduino, braco, pose_atual_braco) # BACALHAU
+                        # envia_pose(arduino, Braco, pose_atual_braco) # BACALHAU
 
                     # Verifica que a pose atual é diferente da pose anterior
                     if pose_atual_braco != pose_anterior_braco:
@@ -525,7 +525,7 @@ def start_video_processing():
                 if (time.time() - ultimo_tempo_deteccao > 3) and pose_atual_braco != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
                     pose_atual_braco = 'Nada'
                     print(pose_atual_braco)  # Apenas imprime "Nada" após 3 segundos de inatividade
-                    # envia_pose(arduino, braco, pose_atual_braco) # BACALHAU
+                    # envia_pose(arduino, Braco, pose_atual_braco) # BACALHAU
 
        
             #-----------------------------------------------------------------------------------------------------------------------------------
@@ -552,7 +552,7 @@ def start_video_processing():
                     if contador_perna > 10 and not impressa_perna:
                         impressa_perna = True # Indica que já foi impressa
                         print('Perna: ', pose_atual_perna) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
-                        # envia_pose(arduino, perna, pose_atual_perna) # BACALHAU
+                        # envia_pose(arduino, Perna, pose_atual_perna) # BACALHAU
 
                     # Verifica que a pose atual é diferente da pose anterior
                     if pose_atual_perna != pose_anterior_perna:
@@ -566,7 +566,7 @@ def start_video_processing():
                 if (time.time() - ultimo_tempo_deteccao_perna > 3) and pose_atual_perna != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
                     pose_atual_perna = 'Nada'
                     print('Perna: ', pose_atual_perna)  # Apenas imprime "Nada" após 3 segundos de inatividade
-                    # envia_pose(arduino, perna, pose_atual_perna) # BACALHAU
+                    # envia_pose(arduino, Perna, pose_atual_perna) # BACALHAU
 
 
 
