@@ -61,6 +61,7 @@ states_count = 0
 current_state_time = 0
 hue_brightness_index = 0
 beats_index = 0
+beat_anterior = 0
 
 '''
 =========================================================
@@ -324,6 +325,8 @@ impressa = False
 impressa_perna = False
 
 
+
+
 '''
 =========================================================
         Chamada de funções de detecção de poses
@@ -373,6 +376,9 @@ def start_video_processing():
 
             global impressa
             global impressa_perna
+
+            global beats_index
+            global beat_anterior
 
             # Desenha os landmarks na imagem
             mp_draw.draw_landmarks(frame, result.pose_landmarks, mp_pose.POSE_CONNECTIONS)
@@ -491,85 +497,90 @@ def start_video_processing():
             #-----------------------------------------------------------------------------------------------------------------------------------
             # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses dos BRAÇOS
 
-            detecado = False
+            #detecado = False
 
             for movimento, angulos in dicionario_poses.items():
                 if angulos["condicao"](anguloBEC, anguloBEB, anguloBDC, anguloBDB):
-                    detecado = True
+                    #detecado = True
                     cor = (255, 105, 180)
                     texto = movimento
                     coord1 = 10
                     coord2 = 300
                     pose_atual_braco = texto
                     funcao_texto(texto, cor, frame, coord1, coord2)
+                    
 
-                    # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
-                    if pose_atual_braco == pose_anterior_braco:
-                        contador +=1
+            #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
+            #         if pose_atual_braco == pose_anterior_braco:
+            #             contador +=1
 
-                    # Verifica que a pose está há um tempo (contador) e que ainda não foi impressa
-                    if contador > 6 and not impressa:
-                        impressa = True # Indica que já foi impressa
-                        print('MEXEU BRACO: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco)) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
-                        # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
+            #         # Verifica que a pose está há um tempo (contador) e que ainda não foi impressa
+            #         if contador > 6 and not impressa:
+            #             impressa = True # Indica que já foi impressa
+            #             print('MEXEU BRACO: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco)) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
+            #             # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
 
-                    # Verifica que a pose atual é diferente da pose anterior
-                    if pose_atual_braco != pose_anterior_braco:
-                        contador = 0 # Reseta contador
-                        impressa = False # Indica que ainda não foi impressa (já que é pose nova)
-                        pose_anterior_braco = pose_atual_braco # Atualiza a pose anterior
-                        ultimo_tempo_deteccao = time.time() # Salva tempo de troca de pose
-                    break
+            #         # Verifica que a pose atual é diferente da pose anterior
+            #         if pose_atual_braco != pose_anterior_braco:
+            #             contador = 0 # Reseta contador
+            #             impressa = False # Indica que ainda não foi impressa (já que é pose nova)
+            #             pose_anterior_braco = pose_atual_braco # Atualiza a pose anterior
+            #             ultimo_tempo_deteccao = time.time() # Salva tempo de troca de pose
+            #         break
 
-            if not detecado: # Verifica que nenhuma pose foi detectada
-                if (time.time() - ultimo_tempo_deteccao > 3) and pose_atual_braco != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
-                    pose_atual_braco = 'Nada'
-                    print('MEXEU BRACO: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))  # Apenas imprime "Nada" após 3 segundos de inatividade
-                    # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
+            # if not detecado: # Verifica que nenhuma pose foi detectada
+            #     if (time.time() - ultimo_tempo_deteccao > 3) and pose_atual_braco != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
+            #         pose_atual_braco = 'Nada'
+            #         print('MEXEU BRACO: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))  # Apenas imprime "Nada" após 3 segundos de inatividade
+            #         # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
 
        
             #-----------------------------------------------------------------------------------------------------------------------------------
             
             # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses das PERNAS
 
-            detecado_perna = False
+            #detecado_perna = False
 
             for movimento, angulos in dicionario_poses_pernas.items():
                 if angulos["condicao"](anguloPEC, anguloPEB, anguloPDC, anguloPDB):
-                    detecado_perna = True
+                    #detecado_perna = True
                     cor = (255, 105, 180)
                     texto = movimento
                     coord1 = 10
                     coord2 = 250
                     pose_atual_perna = movimento
                     funcao_texto(texto, cor, frame, coord1, coord2)
+            
+            if beats_index > beat_anterior:
+                        print('Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))
+                        #envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
 
-                    # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
-                    if pose_atual_perna == pose_anterior_perna:
-                        contador_perna +=1
+            #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
+            #         if pose_atual_perna == pose_anterior_perna:
+            #             contador_perna +=1
 
-                    # Verifica que a pose está há um tempo (contador_perna) e que ainda não foi impressa
-                    if contador_perna > 10 and not impressa_perna:
-                        impressa_perna = True # Indica que já foi impressa
-                        print('MEXEU PERNA: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco)) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
-                        # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
-
-
-                    # Verifica que a pose atual é diferente da pose anterior
-                    if pose_atual_perna != pose_anterior_perna:
-                        contador_perna = 0 # Reseta contador_perna
-                        impressa_perna = False # Indica que ainda não foi impressa (já que é pose nova)
-                        pose_anterior_perna = pose_atual_perna # Atualiza a pose anterior
-                        ultimo_tempo_deteccao_perna = time.time() # Salva tempo de troca de pose
-                    break
-
-            if not detecado_perna: # Verifica que nenhuma pose foi detectada
-                if (time.time() - ultimo_tempo_deteccao_perna > 3) and pose_atual_perna != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
-                    pose_atual_perna = 'Nada'
-                    print('MEXEU PERNA: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))  # Apenas imprime "Nada" após 3 segundos de inatividade
-                    # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
+            #         # Verifica que a pose está há um tempo (contador_perna) e que ainda não foi impressa
+            #         if contador_perna > 10 and not impressa_perna:
+            #             impressa_perna = True # Indica que já foi impressa
+            #             print('MEXEU PERNA: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco)) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
+            #             # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
 
 
+            #         # Verifica que a pose atual é diferente da pose anterior
+            #         if pose_atual_perna != pose_anterior_perna:
+            #             contador_perna = 0 # Reseta contador_perna
+            #             impressa_perna = False # Indica que ainda não foi impressa (já que é pose nova)
+            #             pose_anterior_perna = pose_atual_perna # Atualiza a pose anterior
+            #             ultimo_tempo_deteccao_perna = time.time() # Salva tempo de troca de pose
+            #         break
+
+            # if not detecado_perna: # Verifica que nenhuma pose foi detectada
+            #     if (time.time() - ultimo_tempo_deteccao_perna > 3) and pose_atual_perna != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
+            #         pose_atual_perna = 'Nada'
+            #         print('MEXEU PERNA: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))  # Apenas imprime "Nada" após 3 segundos de inatividade
+            #         # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
+
+            beat_anterior = beats_index
 
         frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         
