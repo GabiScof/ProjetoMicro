@@ -67,10 +67,10 @@ Antes de começar, certifique-se de que você tem o seguinte configurado:
 - **Arduino IDE**
 
 ### Hardware necessário:
-- Placa Arduino Uno (ou compatível).
+- Placa Arduino (ou compatível).
 - Servo motor.
 - Cabo USB para Arduino.
-- Peças impressas em 3D (modelos disponíveis no diretório /3d_models).
+- Peças impressas em 3D.
 
 
 </p>
