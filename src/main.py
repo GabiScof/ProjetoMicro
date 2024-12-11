@@ -14,10 +14,12 @@ import matplotlib.pyplot as plt
 import serial
 import time
 import sys
+from serial import Serial 
+
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.dispositivos.comunica_arduino import envia_pose, envia_string, serial_monitora
+from src.dispositivos.comunica_arduino import envia_pose, envia_string
 from src.config.poses import dicionario_poses, dicionario_poses_pernas
 from src.deteccao_poses.exibicao import calcula_angulo,funcao_texto
 
@@ -28,17 +30,28 @@ from src.deteccao_poses.exibicao import calcula_angulo,funcao_texto
 =========================================================
 '''
 
-# arduino = serial.Serial(port='COM5', baudrate=9600)  
+# arduino = serial.Serial(port='COM8', baudrate=9600)  
 
-# try:
-#     arduino = serial.Serial("COM5", baudrate=9600) #Alterar porta de acordo com dispositivo
-#     time.sleep(2)  # Aguarda 2 segundos para o Arduino inicializar
-#     print("Conexão estabelecida com o Arduino.")
-# except Exception as e:
-#     print(f"Erro ao conectar com o Arduino: {e}")
-#     exit()
+# print('aqui')
+try:
+    arduino = serial.Serial("COM8", baudrate=9600) #Alterar porta de acordo com dispositivo
+    time.sleep(2)  # Aguarda 2 segundos para o Arduino inicializar
+    print("Conexão estabelecida com o Arduino.")
+except Exception as e:
+    print(f"Erro ao conectar com o Arduino: {e}")
+    exit()
 
 
+def serial_monitora():
+  '''
+  Função que monitora serial do Arduino, printando qualquer texto enviado do Arduino ao Python.
+  '''
+  while True:
+    if arduino != None:
+      print("eee a")
+      texto_recebido = arduino.readline().decode().strip()
+      if texto_recebido != "":
+        print(texto_recebido)
 '''
 =========================================================
 Definições de variáveis globais e setup inicial de música
@@ -553,7 +566,7 @@ def start_video_processing():
             
             if beats_index > beat_anterior:
                         print('Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))
-                        #envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
+                        envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
 
             #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
             #         if pose_atual_perna == pose_anterior_perna:
@@ -606,8 +619,8 @@ def start_video_processing():
 
 thread = threading.Thread(target=start_video_processing, daemon=True)
 thread.start()
-#thread2 = threading.Thread(target=serial_monitora, args=(arduino), daemon=True)
-#thread2.start()
+thread2 = threading.Thread(target=serial_monitora, daemon=True)
+thread2.start()
 # BACALHAU
 
 update_time() 

@@ -24,15 +24,15 @@ def envia_string(arduino, string):
     return
 
 
-def serial_monitora(arduino):
-  '''
-  Função que monitora serial do Arduino, printando qualquer texto enviado do Arduino ao Python.
-  '''
-  while True:
-    if arduino != None:
-      texto_recebido = arduino.readline().decode().strip()
-      if texto_recebido != "":
-        print(texto_recebido)
+# def serial_monitora(arduino):
+#   '''
+#   Função que monitora serial do Arduino, printando qualquer texto enviado do Arduino ao Python.
+#   '''
+#   while True:
+#     if arduino != None:
+#       texto_recebido = arduino.readline().decode().strip()
+#       if texto_recebido != "":
+#         print(texto_recebido)
 
 
 
