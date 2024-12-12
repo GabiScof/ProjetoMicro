@@ -537,14 +537,14 @@ def start_video_processing():
                     texto = "Bracos: "+ 'E_frente e D_dobrado'
                     coord1 = 10
                     coord2 = 300
-                    pose_atual_braco = 'arm08'
+                    pose_atual_braco = 'arm06'
                     funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
                 else:
                     cor = (255, 105, 180)
                     texto = "Bracos: "+ 'E_frente e D_reto'
                     coord1 = 10
                     coord2 = 300
-                    pose_atual_braco = 'arm09'
+                    pose_atual_braco = 'arm07'
                     funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
@@ -614,7 +614,7 @@ def start_video_processing():
                 texto = "Pernas: "+ 'esquerda_tras'
                 coord1 = 10
                 coord2 = 250
-                pose_atual_braco = 'leg06'
+                pose_atual_braco = 'leg05'
                 funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
