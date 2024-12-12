@@ -19,7 +19,7 @@ from serial import Serial
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.dispositivos.comunica_arduino import envia_pose, envia_string
+from src.dispositivos.comunica_arduino import envia_pose, envia_string, serial_monitora
 from src.config.poses import dicionario_poses, dicionario_poses_pernas
 from src.deteccao_poses.exibicao import calcula_angulo,funcao_texto
 
@@ -30,28 +30,15 @@ from src.deteccao_poses.exibicao import calcula_angulo,funcao_texto
 =========================================================
 '''
 
-# arduino = serial.Serial(port='COM8', baudrate=9600)  
-
-# print('aqui')
 try:
-    arduino = serial.Serial("COM8", baudrate=9600) #Alterar porta de acordo com dispositivo
-    time.sleep(2)  # Aguarda 2 segundos para o Arduino inicializar
+    arduino = serial.Serial("COM8", baudrate=9600, timeout=0.4) #Alterar porta de acordo com dispositivo
+    time.sleep(2)
     print("Conexão estabelecida com o Arduino.")
 except Exception as e:
     print(f"Erro ao conectar com o Arduino: {e}")
     exit()
 
 
-def serial_monitora():
-  '''
-  Função que monitora serial do Arduino, printando qualquer texto enviado do Arduino ao Python.
-  '''
-  while True:
-    if arduino != None:
-      print("eee a")
-      texto_recebido = arduino.readline().decode().strip()
-      if texto_recebido != "":
-        print(texto_recebido)
 '''
 =========================================================
 Definições de variáveis globais e setup inicial de música
@@ -164,6 +151,9 @@ def update_time():
 
 
 def play_pause_song():
+    '''
+    Função para iniciar música e pausar.
+    '''
     global isPlaying
     if pygame.mixer.music.get_busy():
         pygame.mixer.music.pause()
@@ -506,6 +496,7 @@ def start_video_processing():
             texto = str(maoDX) + "," + str(maoDY) + "," + str(maoDZ)
             cv2.putText(frame, texto, (maoDX, maoDY),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+            
 
             #-----------------------------------------------------------------------------------------------------------------------------------
             # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses dos BRAÇOS
@@ -554,19 +545,35 @@ def start_video_processing():
 
             #detecado_perna = False
 
-            for movimento, angulos in dicionario_poses_pernas.items():
-                if angulos["condicao"](anguloPEC, anguloPEB, anguloPDC, anguloPDB):
-                    #detecado_perna = True
-                    cor = (255, 105, 180)
-                    texto = movimento
-                    coord1 = 10
-                    coord2 = 250
-                    pose_atual_perna = movimento
-                    funcao_texto(texto, cor, frame, coord1, coord2)
+            # for movimento, angulos in dicionario_poses_pernas.items():
+            #     if angulos["condicao"](anguloPEC, anguloPEB, anguloPDC, anguloPDB):
+            #         #detecado_perna = True
+            #         cor = (255, 105, 180)
+            #         texto = movimento
+            #         coord1 = 10
+            #         coord2 = 250
+            #         pose_atual_perna = movimento
+            #         funcao_texto(texto, cor, frame, coord1, coord2)
             
+            if anguloPDC >=10  or anguloPEC>=10:
+                cor = (255, 105, 180)
+                texto = "dobrado"
+                coord1 = 10
+                coord2 = 250
+                pose_atual_perna = movimento
+                funcao_texto(texto, cor, frame, coord1, coord2)
+
+            if anguloPDC <=10  and anguloPEC<=10:
+                cor = (255, 105, 180)
+                texto = "retas"
+                coord1 = 10
+                coord2 = 250
+                pose_atual_perna = movimento
+                funcao_texto(texto, cor, frame, coord1, coord2)
+
             if beats_index > beat_anterior:
-                        print('Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))
-                        envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
+                print('Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))
+                envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
 
             #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
             #         if pose_atual_perna == pose_anterior_perna:
@@ -619,7 +626,7 @@ def start_video_processing():
 
 thread = threading.Thread(target=start_video_processing, daemon=True)
 thread.start()
-thread2 = threading.Thread(target=serial_monitora, daemon=True)
+thread2 = threading.Thread(target=serial_monitora, args=[arduino], daemon=True)
 thread2.start()
 # BACALHAU
 
