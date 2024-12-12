@@ -606,15 +606,15 @@ def start_video_processing():
                 texto = "Pernas: "+ 'direita_tras'
                 coord1 = 10
                 coord2 = 250
-                pose_atual_braco = 'leg05'
+                pose_atual_braco = 'leg03'
                 funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             elif distancia(peEX,joelhoEX,peEY,joelhoEY) <70:
-                cor = (255, 105, 180)
+                cor = (235, 105, 180)
                 texto = "Pernas: "+ 'esquerda_tras'
                 coord1 = 10
                 coord2 = 250
-                pose_atual_braco = 'leg05'
+                pose_atual_braco = 'leg03'
                 funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
