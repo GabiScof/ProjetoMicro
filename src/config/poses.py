@@ -8,7 +8,8 @@ dicionario_poses = {
             (90 - 30) <= anguloBEB <= (90 + 30) and
             (90 - 30) <= anguloBDC <= (90 + 30) and
             (90 - 30) <= anguloBDB <= (90 + 30)
-        )
+        ),
+        "nome": "arm03"
     },
     "maos_pro_alto": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
@@ -16,7 +17,8 @@ dicionario_poses = {
             (180 - 30) <= anguloBDB <= (180 + 30) and
             (180 - 30) <= anguloBEC <= (180 + 30) and
             (180 - 30) <= anguloBEB <= (180 + 30)
-        )
+        ),
+        "nome": "arm01"
     },
     "maos_pra_baixo": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
@@ -24,7 +26,8 @@ dicionario_poses = {
             (0 - 30) <= anguloBDB <= (0 + 30) and
             (0 - 30) <= anguloBEC <= (0 + 30) and
             (0 - 30) <= anguloBEB <= (0 + 30)
-        )
+        ),
+        "nome": "arm00"
     },
     "esquerda_cima_direita_baixo": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
@@ -32,7 +35,8 @@ dicionario_poses = {
             (180 - 30) <= anguloBEB <= (180 + 30) and
             (0 - 30) <= anguloBDC <= (0 + 30) and
             (0 - 30) <= anguloBDB <= (0 + 30)
-        )
+        ),
+        "nome": "arm00"
     },
     "direita_cima_esquerda_baixo": {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
@@ -40,7 +44,8 @@ dicionario_poses = {
             (180 - 30) <= anguloBDB <= (180 + 30) and
             (0 - 30) <= anguloBEC <= (0 + 30) and
             (0 - 30) <= anguloBEB <= (0 + 30)
-        )
+        ),
+        "nome": "arm00"
     },
     "formato_U":
     {
@@ -49,7 +54,8 @@ dicionario_poses = {
             (180 - 30) <= anguloBDB <= (180 + 30) and
             (90 - 30) <= anguloBEC <= (90 + 30) and
             (180 - 30) <= anguloBEB <= (180 + 30)
-        )
+        ),
+        "nome": "arm02"
     },
     "formato_U_invertido":
     {
@@ -58,7 +64,8 @@ dicionario_poses = {
             (0 - 30) <= anguloBDB <= (0 + 30) and
             (90 - 30) <= anguloBEC <= (90 + 30) and
             (0 - 30) <= anguloBEB <= (0 + 30)
-        )
+        ),
+        "nome": "arm03"
     },
     "formato_S":
     {
@@ -67,7 +74,8 @@ dicionario_poses = {
             (0 - 30) <= anguloBDB <= (0 + 30) and
             (90 - 30) <= anguloBEC <= (90 + 30) and
             (180 - 30) <= anguloBEB <= (180 + 30)
-        )
+        ),
+        "nome": "arm02"
     },
     "formato_S_espelhado":
     {
@@ -76,7 +84,8 @@ dicionario_poses = {
             (0 - 30) <= anguloBEB <= (0 + 30) and
             (90 - 30) <= anguloBDC <= (90 + 30) and
             (180 - 30) <= anguloBDB <= (180 + 30)
-        )
+        ),
+        "nome": "arm02"
     },
     "disco_move":
     {
@@ -85,7 +94,8 @@ dicionario_poses = {
             (45 - 30) <= anguloBEB <= (45 + 30) and
             (135 - 30) <= anguloBDC <= (135 + 30) and
             (135 - 30) <= anguloBDB <= (135 + 30)
-        )
+        ),
+        "nome": "arm04"
     },
     "disco_disco_move":
     {
@@ -94,7 +104,8 @@ dicionario_poses = {
             (45 - 30) <= anguloBDB <= (45 + 30) and
             (135 - 30) <= anguloBEC <= (135 + 30) and
             (135 - 30) <= anguloBEB <= (135 + 30)
-        )
+        ),
+        "nome": "arm04"
     },
     "uzinho":
     {
@@ -103,7 +114,8 @@ dicionario_poses = {
             (180 - 30) <= anguloBDB <= (180 + 30) and
             (50 - 30) <= anguloBEC <= (50 + 30) and
             (180 - 30) <= anguloBEB <= (180 + 30)
-        )
+        ),
+        "nome": "arm02"
     },
     "v":
     {
@@ -112,7 +124,8 @@ dicionario_poses = {
             (135 - 30) <= anguloBDB <= (135 + 30) and
             (135 - 30) <= anguloBEC <= (135 + 30) and
             (135 - 30) <= anguloBEB <= (135 + 30)
-        )
+        ),
+        "nome": "arm02"
     },
      "maos_na_cabeca":
     {
@@ -121,10 +134,10 @@ dicionario_poses = {
             (130 - 30) <= anguloBDB <= (130 + 30) and
             (90 - 30) <= anguloBEC <= (90 + 30) and
             (135 - 30) <= anguloBEB <= (130 + 30)
-        )
+        ),
+        "nome": "arm02"
     }, 
 }
-
 
 
 dicionario_poses_pernas = {
@@ -132,19 +145,22 @@ dicionario_poses_pernas = {
         "condicao": lambda angulo_PEC, angulo_PDC: (
             angulo_PEC <= (10)  and
             angulo_PDC <= (10) 
-        )
+        ),
+        "nome": "leg01"
     },
     "dobra_esquerda": {
         "condicao": lambda angulo_PEC, angulo_PDC: (
             angulo_PEC >= (10)  and
             angulo_PDC <= (10) 
-        )
+        ),
+        "nome": "leg02"
     },
     "dobra_direita": {
         "condicao": lambda angulo_PEC, angulo_PDC: (
             angulo_PEC <= (10)  and
             angulo_PDC >= (10) 
-        )
+        ),
+        "nome": "leg03"
     },
     # "dobradas": {
     #     "condicao": lambda angulo_PEC, angulo_PDC: (

@@ -19,7 +19,7 @@ from serial import Serial
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.dispositivos.comunica_arduino import envia_pose, envia_string, serial_monitora, enviar_brightness, enviar_hue
+from src.dispositivos.comunica_arduino import envia_pose, envia_string, serial_monitora, enviar_brightness, enviar_hue, enviar_batida
 from src.config.poses import dicionario_poses, dicionario_poses_pernas
 from src.deteccao_poses.exibicao import calcula_angulo,funcao_texto
 from src.utils.distancia import distancia
@@ -145,7 +145,7 @@ def update_time():
                 
 
             elif current_time_s >= current_song_info["beats"][beats_index]:
-                # envia_string(arduino, "Batida") #BACALHAU
+                enviar_batida()
                 beats_index += 1
 
         except:
@@ -483,12 +483,12 @@ def start_video_processing():
             # Braço (cima) esquerdo
             anguloBEC = calcula_angulo(cotoveloEX, cotoveloEY, ombroEX, ombroEY)
             cv2.putText(frame, str(anguloBEC), (int((cotoveloEX+ombroEX)/2)+40, int((cotoveloEY+ombroEY)/2)),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
             # Braço (baixo) esquerdo
             anguloBEB = calcula_angulo(maoEX, maoEY, cotoveloEX, cotoveloEY)
             cv2.putText(frame, str(anguloBEB), (int((cotoveloEX + maoEX) / 2)+40, int((cotoveloEY + maoEY) / 2)),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
             #-----------------------------------------------------------------------------------------------------------------------------------
             # Exibição visual
@@ -507,29 +507,45 @@ def start_video_processing():
 
             #detecado = False
 
-            if distancia(ombroDX,maoDX,ombroDY,maoDY) <60 and distancia(ombroEX,maoEX,ombroEY,maoEY) <60 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <60 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <60:
+            if distancia(ombroDX,maoDX,ombroDY,maoDY) <70 and distancia(ombroEX,maoEX,ombroEY,maoEY) <70 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <70 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <70:
                 cor = (255, 105, 180)
                 texto = "Bracos: "+ 'ambos_frente'
                 coord1 = 10
                 coord2 = 300
-                pose_atual_braco = texto
+                pose_atual_braco = 'arm05'
                 funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
-            elif distancia(ombroDX,maoDX,ombroDY,maoDY) <60 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <60:
-                            cor = (255, 105, 180)
-                            texto = "Bracos: "+ 'direita_frente'
-                            coord1 = 10
-                            coord2 = 300
-                            pose_atual_braco = texto
-                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+            elif distancia(ombroDX,maoDX,ombroDY,maoDY) <70 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <70:
+                if anguloBEC>=90:
+                    cor = (255, 105, 180)
+                    texto = "Bracos: "+ 'D_frente e E_dobrado'
+                    coord1 = 10
+                    coord2 = 300
+                    pose_atual_braco = 'arm06'
+                    funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+                else:
+                    cor = (255, 105, 180)
+                    texto = "Bracos: "+ 'D_frente e E_reto'
+                    coord1 = 10
+                    coord2 = 300
+                    pose_atual_braco = 'arm07'
+                    funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
-            elif distancia(ombroEX,maoEX,ombroEY,maoEY) <60 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <60:
-                            cor = (255, 105, 180)
-                            texto = "Bracos: "+ 'esquerda_frente'
-                            coord1 = 10
-                            coord2 = 300
-                            pose_atual_braco = texto
-                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+            elif distancia(ombroEX,maoEX,ombroEY,maoEY) <70 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <70:
+                if anguloBDC >=90:
+                    cor = (255, 105, 180)
+                    texto = "Bracos: "+ 'E_frente e D_dobrado'
+                    coord1 = 10
+                    coord2 = 300
+                    pose_atual_braco = 'arm08'
+                    funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+                else:
+                    cor = (255, 105, 180)
+                    texto = "Bracos: "+ 'E_frente e D_reto'
+                    coord1 = 10
+                    coord2 = 300
+                    pose_atual_braco = 'arm09'
+                    funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
                 for movimento, angulos in dicionario_poses.items():
@@ -539,9 +555,9 @@ def start_video_processing():
                         texto = "Bracos: "+ movimento
                         coord1 = 10
                         coord2 = 300
-                        pose_atual_braco = texto
+                        pose_atual_braco = angulos["nome"]
                         funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
-                        
+
 
             #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
             #         if pose_atual_braco == pose_anterior_braco:
@@ -577,29 +593,29 @@ def start_video_processing():
 
 
 
-            if distancia(peDX,joelhoDX,peDY,joelhoDY) <60 and distancia(peEX,joelhoEX,peEY,joelhoEY) <60:
+            if distancia(peDX,joelhoDX,peDY,joelhoDY) <70 and distancia(peEX,joelhoEX,peEY,joelhoEY) <70:
                 cor = (255, 105, 180)
                 texto = "Pernas: "+ 'ambos_tras'
                 coord1 = 10
                 coord2 = 250
-                pose_atual_braco = texto
+                pose_atual_braco = 'leg04'
                 funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
-            elif distancia(peDX,joelhoDX,peDY,joelhoDY) <60:
-                            cor = (255, 105, 180)
-                            texto = "Pernas: "+ 'direita_tras'
-                            coord1 = 10
-                            coord2 = 250
-                            pose_atual_braco = texto
-                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+            elif distancia(peDX,joelhoDX,peDY,joelhoDY) <70:
+                cor = (255, 105, 180)
+                texto = "Pernas: "+ 'direita_tras'
+                coord1 = 10
+                coord2 = 250
+                pose_atual_braco = 'leg05'
+                funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
-            elif distancia(peEX,joelhoEX,peEY,joelhoEY) <60:
-                            cor = (255, 105, 180)
-                            texto = "Pernas: "+ 'esquerda_tras'
-                            coord1 = 10
-                            coord2 = 250
-                            pose_atual_braco = texto
-                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+            elif distancia(peEX,joelhoEX,peEY,joelhoEY) <70:
+                cor = (255, 105, 180)
+                texto = "Pernas: "+ 'esquerda_tras'
+                coord1 = 10
+                coord2 = 250
+                pose_atual_braco = 'leg06'
+                funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
                 for movimento, angulos in dicionario_poses_pernas.items():
@@ -609,7 +625,7 @@ def start_video_processing():
                         texto = "Pernas: "+ movimento
                         coord1 = 10
                         coord2 = 250
-                        pose_atual_perna = movimento
+                        pose_atual_perna = angulos["nome"]
                         funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
                     
 
