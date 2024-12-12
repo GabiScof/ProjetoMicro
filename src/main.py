@@ -518,7 +518,7 @@ def start_video_processing():
                             coord1 = 10
                             coord2 = 300
                             pose_atual_braco = texto
-                            funcao_texto(texto, cor, frame, coord1, coord2)
+                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             elif distancia(ombroEX,maoEX,ombroEY,maoEY) <60 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <60:
                             cor = (255, 105, 180)
@@ -574,17 +574,41 @@ def start_video_processing():
             
 
 
+            if distancia(peDX,joelhoDX,peDY,joelhoDY) <60 and distancia(peEX,joelhoEX,peEY,joelhoEY) <60:
+                cor = (255, 105, 180)
+                texto = 'ambos_tras'
+                coord1 = 10
+                coord2 = 250
+                pose_atual_braco = texto
+                funcao_texto(texto, cor, frame, coord1, coord2)
 
-            for movimento, angulos in dicionario_poses_pernas.items():
-                if angulos["condicao"](anguloPEC, anguloPDC):
-                    #detecado_perna = True
-                    cor = (255, 105, 180)
-                    texto = movimento
-                    coord1 = 10
-                    coord2 = 250
-                    pose_atual_perna = movimento
-                    funcao_texto(texto, cor, frame, coord1, coord2)
-                
+            elif distancia(peDX,joelhoDX,peDY,joelhoDY) <60:
+                            cor = (255, 105, 180)
+                            texto = 'direita_tras'
+                            coord1 = 10
+                            coord2 = 250
+                            pose_atual_braco = texto
+                            funcao_texto(texto, cor, frame, coord1, coord2)
+
+            elif distancia(peEX,joelhoEX,peEY,joelhoEY) <60:
+                            cor = (255, 105, 180)
+                            texto = 'esquerda_tras'
+                            coord1 = 10
+                            coord2 = 250
+                            pose_atual_braco = texto
+                            funcao_texto(texto, cor, frame, coord1, coord2)
+
+            else:                
+                for movimento, angulos in dicionario_poses_pernas.items():
+                    if angulos["condicao"](anguloPEC, anguloPDC):
+                        #detecado_perna = True
+                        cor = (255, 105, 180)
+                        texto = movimento
+                        coord1 = 10
+                        coord2 = 250
+                        pose_atual_perna = movimento
+                        funcao_texto(texto, cor, frame, coord1, coord2)
+                    
 
             # if anguloPDC >=10  or anguloPEC>=10:
             #     cor = (255, 105, 180)
