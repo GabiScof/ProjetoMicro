@@ -1,6 +1,6 @@
 import serial
 
-__all__ = ['envia_pose', 'envia_string', 'serial_monitora']
+__all__ = ['envia_pose', 'envia_string', 'serial_monitora', 'enviar_hue', 'enviar_brightness']
 
 
 def envia_pose(arduino, pose_perna, pose_braco):
@@ -35,4 +35,9 @@ def serial_monitora(arduino):
         print(texto_recebido)
 
 
+def enviar_hue(hue):
+    envia_string("hue %d\n"%hue)
 
+
+def enviar_brightness(brightness):
+    envia_string("brightness %d\n"%brightness)

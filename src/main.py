@@ -19,7 +19,7 @@ from serial import Serial
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.dispositivos.comunica_arduino import envia_pose, envia_string, serial_monitora
+from src.dispositivos.comunica_arduino import envia_pose, envia_string, serial_monitora, enviar_brightness, enviar_hue
 from src.config.poses import dicionario_poses, dicionario_poses_pernas
 from src.deteccao_poses.exibicao import calcula_angulo,funcao_texto
 from src.utils.distancia import distancia
@@ -138,8 +138,11 @@ def update_time():
             current_time_s = pygame.mixer.music.get_pos() / 1000
 
             if current_time_s >= states_count * current_state_time and current_time_s <= current_song_info["total_time_length"]:
+                enviar_hue(current_song_info["hue"][hue_brightness_index])
+                enviar_brightness(current_song_info["brightness"][hue_brightness_index])
                 states_count += 1 
                 hue_brightness_index += 1
+                
 
             elif current_time_s >= current_song_info["beats"][beats_index]:
                 # envia_string(arduino, "Batida") #BACALHAU
@@ -500,21 +503,21 @@ def start_video_processing():
             
 
             #-----------------------------------------------------------------------------------------------------------------------------------
-            # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses dos BRAÇOS
+            # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses dos Bracos
 
             #detecado = False
 
             if distancia(ombroDX,maoDX,ombroDY,maoDY) <60 and distancia(ombroEX,maoEX,ombroEY,maoEY) <60 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <60 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <60:
                 cor = (255, 105, 180)
-                texto = 'ambos_frente'
+                texto = "Bracos: "+ 'ambos_frente'
                 coord1 = 10
                 coord2 = 300
                 pose_atual_braco = texto
-                funcao_texto(texto, cor, frame, coord1, coord2)
+                funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             elif distancia(ombroDX,maoDX,ombroDY,maoDY) <60 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <60:
                             cor = (255, 105, 180)
-                            texto = 'direita_frente'
+                            texto = "Bracos: "+ 'direita_frente'
                             coord1 = 10
                             coord2 = 300
                             pose_atual_braco = texto
@@ -522,22 +525,22 @@ def start_video_processing():
 
             elif distancia(ombroEX,maoEX,ombroEY,maoEY) <60 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <60:
                             cor = (255, 105, 180)
-                            texto = 'esquerda_frente'
+                            texto = "Bracos: "+ 'esquerda_frente'
                             coord1 = 10
                             coord2 = 300
                             pose_atual_braco = texto
-                            funcao_texto(texto, cor, frame, coord1, coord2)
+                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
                 for movimento, angulos in dicionario_poses.items():
                     if angulos["condicao"](anguloBEC, anguloBEB, anguloBDC, anguloBDB):
                         #detecado = True
                         cor = (255, 105, 180)
-                        texto = movimento
+                        texto = "Bracos: "+ movimento
                         coord1 = 10
                         coord2 = 300
                         pose_atual_braco = texto
-                        funcao_texto(texto, cor, frame, coord1, coord2)
+                        funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
                         
 
             #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
@@ -571,43 +574,43 @@ def start_video_processing():
             # print(distancia(ombroDX,maoDX,ombroDY,maoDY))
 
             #detecado_perna = False
-            
+
 
 
             if distancia(peDX,joelhoDX,peDY,joelhoDY) <60 and distancia(peEX,joelhoEX,peEY,joelhoEY) <60:
                 cor = (255, 105, 180)
-                texto = 'ambos_tras'
+                texto = "Pernas: "+ 'ambos_tras'
                 coord1 = 10
                 coord2 = 250
                 pose_atual_braco = texto
-                funcao_texto(texto, cor, frame, coord1, coord2)
+                funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             elif distancia(peDX,joelhoDX,peDY,joelhoDY) <60:
                             cor = (255, 105, 180)
-                            texto = 'direita_tras'
+                            texto = "Pernas: "+ 'direita_tras'
                             coord1 = 10
                             coord2 = 250
                             pose_atual_braco = texto
-                            funcao_texto(texto, cor, frame, coord1, coord2)
+                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             elif distancia(peEX,joelhoEX,peEY,joelhoEY) <60:
                             cor = (255, 105, 180)
-                            texto = 'esquerda_tras'
+                            texto = "Pernas: "+ 'esquerda_tras'
                             coord1 = 10
                             coord2 = 250
                             pose_atual_braco = texto
-                            funcao_texto(texto, cor, frame, coord1, coord2)
+                            funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
                 for movimento, angulos in dicionario_poses_pernas.items():
                     if angulos["condicao"](anguloPEC, anguloPDC):
                         #detecado_perna = True
                         cor = (255, 105, 180)
-                        texto = movimento
+                        texto = "Pernas: "+ movimento
                         coord1 = 10
                         coord2 = 250
                         pose_atual_perna = movimento
-                        funcao_texto(texto, cor, frame, coord1, coord2)
+                        funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
                     
 
             # if anguloPDC >=10  or anguloPEC>=10:
