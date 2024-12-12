@@ -25,9 +25,13 @@ def calcula_angulo(a_x: float, a_y: float, b_x: float, b_y: float):
     norma_ab = math.sqrt(vetor_ab[0]**2 + vetor_ab[1]**2) # (|u|)
     norma_v_vertical = math.sqrt(vetor_vertical[0]**2 + vetor_vertical[1]**2) # (|v|)
 
+    if norma_ab * norma_v_vertical ==0 :
+        return 0
+    
     cos_angulo = produto_escalar / (norma_ab * norma_v_vertical) # cos θ 
     angulo_radianos = math.acos(cos_angulo) # arcos(cos(θ))
     angulo_graus = math.degrees(angulo_radianos) # Porque a função acos retorna em radiano
+
 
     return round(angulo_graus, 2) # Retorna apenas duas casas decimais
 

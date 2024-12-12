@@ -129,59 +129,27 @@ dicionario_poses = {
 
 dicionario_poses_pernas = {
     "retas": {
-        "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
-            (0 - 30) <= angulo_PEC <= (0 + 30) and
-            (0 - 30) <= angulo_PEB <= (0 + 30) and
-            (0 - 30) <= angulo_PDC <= (0 + 30) and
-            (0 - 30) <= angulo_PDB <= (0 + 30)
-        )
-    },
-    "dobradas": {
-        "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
-            (90 - 30) <= angulo_PEC <= (90 + 30) and
-            (0 - 30) <= angulo_PEB <= (0 + 30) and
-            (90 - 30) <= angulo_PDC <= (90 + 30) and
-            (0 - 30) <= angulo_PDB <= (0 + 30)
-        )
-    },
-    "chutes": {
-        "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
-            (90 - 30) <= angulo_PEC <= (90 + 30) and
-            (90 - 30) <= angulo_PEB <= (90 + 30) and
-            (90 - 30) <= angulo_PDC <= (90 + 30) and
-            (90 - 30) <= angulo_PDB <= (90 + 30)
-        )
-    },
-    "chuta_esquerdo": {
-        "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
-            (90 - 30) <= angulo_PEC <= (90 + 30) and
-            (90 - 30) <= angulo_PEB <= (90 + 30) and
-            (0 - 30) <= angulo_PDC <= (90 + 30) and
-            (0 - 30) <= angulo_PDB <= (90 + 30)
-        )
-    },
-    "chuta_direito": {
-        "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
-            (0 - 30) <= angulo_PEC <= (90 + 30) and
-            (0 - 30) <= angulo_PEB <= (90 + 30) and
-            (90 - 30) <= angulo_PDC <= (90 + 30) and
-            (90 - 30) <= angulo_PDB <= (90 + 30)
-        )
-    },
-    "dobra_direita": {
-        "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
-            (90 - 30) <= angulo_PEC <= (90 + 30) and
-            (0 - 30) <= angulo_PEB <= (0 + 30) and
-            (0 - 30) <= angulo_PDC <= (90 + 30) and
-            (0 - 30) <= angulo_PDB <= (0 + 30)
+        "condicao": lambda angulo_PEC, angulo_PDC: (
+            angulo_PEC <= (10)  and
+            angulo_PDC <= (10) 
         )
     },
     "dobra_esquerda": {
-        "condicao": lambda angulo_PEC, angulo_PEB, angulo_PDC, angulo_PDB: (
-            (0 - 30) <= angulo_PEC <= (90 + 30) and
-            (0 - 30) <= angulo_PEB <= (0 + 30) and
-            (90 - 30) <= angulo_PDC <= (90 + 30) and
-            (0 - 30) <= angulo_PDB <= (0 + 30)
+        "condicao": lambda angulo_PEC, angulo_PDC: (
+            angulo_PEC >= (10)  and
+            angulo_PDC <= (10) 
         )
     },
+    "dobra_direita": {
+        "condicao": lambda angulo_PEC, angulo_PDC: (
+            angulo_PEC <= (10)  and
+            angulo_PDC >= (10) 
+        )
+    },
+    # "dobradas": {
+    #     "condicao": lambda angulo_PEC, angulo_PDC: (
+    #         angulo_PEC >= (10)  and
+    #         angulo_PDC >= (10) 
+    #     )
+    # }
 }

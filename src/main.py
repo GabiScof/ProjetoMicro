@@ -22,6 +22,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.dispositivos.comunica_arduino import envia_pose, envia_string, serial_monitora
 from src.config.poses import dicionario_poses, dicionario_poses_pernas
 from src.deteccao_poses.exibicao import calcula_angulo,funcao_texto
+from src.utils.distancia import distancia
 
 
 '''
@@ -503,16 +504,41 @@ def start_video_processing():
 
             #detecado = False
 
-            for movimento, angulos in dicionario_poses.items():
-                if angulos["condicao"](anguloBEC, anguloBEB, anguloBDC, anguloBDB):
-                    #detecado = True
-                    cor = (255, 105, 180)
-                    texto = movimento
-                    coord1 = 10
-                    coord2 = 300
-                    pose_atual_braco = texto
-                    funcao_texto(texto, cor, frame, coord1, coord2)
-                    
+            if distancia(ombroDX,maoDX,ombroDY,maoDY) <60 and distancia(ombroEX,maoEX,ombroEY,maoEY) <60 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <60 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <60:
+                cor = (255, 105, 180)
+                texto = 'ambos_frente'
+                coord1 = 10
+                coord2 = 300
+                pose_atual_braco = texto
+                funcao_texto(texto, cor, frame, coord1, coord2)
+
+            elif distancia(ombroDX,maoDX,ombroDY,maoDY) <60 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <60:
+                            cor = (255, 105, 180)
+                            texto = 'direita_frente'
+                            coord1 = 10
+                            coord2 = 300
+                            pose_atual_braco = texto
+                            funcao_texto(texto, cor, frame, coord1, coord2)
+
+            elif distancia(ombroEX,maoEX,ombroEY,maoEY) <60 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <60:
+                            cor = (255, 105, 180)
+                            texto = 'esquerda_frente'
+                            coord1 = 10
+                            coord2 = 300
+                            pose_atual_braco = texto
+                            funcao_texto(texto, cor, frame, coord1, coord2)
+
+            else:                
+                for movimento, angulos in dicionario_poses.items():
+                    if angulos["condicao"](anguloBEC, anguloBEB, anguloBDC, anguloBDB):
+                        #detecado = True
+                        cor = (255, 105, 180)
+                        texto = movimento
+                        coord1 = 10
+                        coord2 = 300
+                        pose_atual_braco = texto
+                        funcao_texto(texto, cor, frame, coord1, coord2)
+                        
 
             #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
             #         if pose_atual_braco == pose_anterior_braco:
@@ -542,34 +568,41 @@ def start_video_processing():
             #-----------------------------------------------------------------------------------------------------------------------------------
             
             # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses das PERNAS
+            # print(distancia(ombroDX,maoDX,ombroDY,maoDY))
 
             #detecado_perna = False
-
-            # for movimento, angulos in dicionario_poses_pernas.items():
-            #     if angulos["condicao"](anguloPEC, anguloPEB, anguloPDC, anguloPDB):
-            #         #detecado_perna = True
-            #         cor = (255, 105, 180)
-            #         texto = movimento
-            #         coord1 = 10
-            #         coord2 = 250
-            #         pose_atual_perna = movimento
-            #         funcao_texto(texto, cor, frame, coord1, coord2)
             
-            if anguloPDC >=10  or anguloPEC>=10:
-                cor = (255, 105, 180)
-                texto = "dobrado"
-                coord1 = 10
-                coord2 = 250
-                pose_atual_perna = movimento
-                funcao_texto(texto, cor, frame, coord1, coord2)
 
-            if anguloPDC <=10  and anguloPEC<=10:
-                cor = (255, 105, 180)
-                texto = "retas"
-                coord1 = 10
-                coord2 = 250
-                pose_atual_perna = movimento
-                funcao_texto(texto, cor, frame, coord1, coord2)
+
+
+            for movimento, angulos in dicionario_poses_pernas.items():
+                if angulos["condicao"](anguloPEC, anguloPDC):
+                    #detecado_perna = True
+                    cor = (255, 105, 180)
+                    texto = movimento
+                    coord1 = 10
+                    coord2 = 250
+                    pose_atual_perna = movimento
+                    funcao_texto(texto, cor, frame, coord1, coord2)
+                
+
+            # if anguloPDC >=10  or anguloPEC>=10:
+            #     cor = (255, 105, 180)
+            #     texto = "dobrado"
+            #     coord1 = 10
+            #     coord2 = 250
+            #     pose_atual_perna = movimento
+            #     funcao_texto(texto, cor, frame, coord1, coord2)
+
+            # if anguloPDC <=10  and anguloPEC<=10:
+            #     cor = (255, 105, 180)
+            #     texto = "retas"
+            #     coord1 = 10
+            #     coord2 = 250
+            #     pose_atual_perna = movimento
+            #     funcao_texto(texto, cor, frame, coord1, coord2)
+
+            
 
             if beats_index > beat_anterior:
                 print('Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))
@@ -628,7 +661,6 @@ thread = threading.Thread(target=start_video_processing, daemon=True)
 thread.start()
 thread2 = threading.Thread(target=serial_monitora, args=[arduino], daemon=True)
 thread2.start()
-# BACALHAU
 
 update_time() 
 root.mainloop() 
