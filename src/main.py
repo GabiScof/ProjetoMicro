@@ -593,15 +593,15 @@ def start_video_processing():
 
 
 
-            if distancia(peDX,joelhoDX,peDY,joelhoDY) <70 and distancia(peEX,joelhoEX,peEY,joelhoEY) <70:
-                cor = (255, 105, 180)
-                texto = "Pernas: "+ 'ambos_tras'
-                coord1 = 10
-                coord2 = 250
-                pose_atual_braco = 'leg04'
-                funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+            # if distancia(peDX,joelhoDX,peDY,joelhoDY) <70 and distancia(peEX,joelhoEX,peEY,joelhoEY) <70:
+            #     cor = (255, 105, 180)
+            #     texto = "Pernas: "+ 'ambos_tras'
+            #     coord1 = 10
+            #     coord2 = 250
+            #     pose_atual_braco = 'leg04'
+            #     funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
-            elif distancia(peDX,joelhoDX,peDY,joelhoDY) <70:
+            if distancia(peDX,joelhoDX,peDY,joelhoDY) <70:
                 cor = (255, 105, 180)
                 texto = "Pernas: "+ 'direita_tras'
                 coord1 = 10
