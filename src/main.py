@@ -264,11 +264,13 @@ root = tk.Tk()
 
 root.attributes('-fullscreen', False)
 
+bg_color = "#f0f0f0"
+
 style = ttk.Style()
 style.theme_use("clam")
-style.configure("TButton", font=("Comic Sans MS", 12), padding=5)
-style.configure("TLabel", font=("Comic Sans MS", 14))
-style.configure("TFrame", background="#f0f0f0")
+style.configure("TButton", background=bg_color, font=("Arial", 24), padding=5)
+style.configure("TLabel", background=bg_color, font=("Arial", 28))
+style.configure("TFrame", background=bg_color)
 
 # Cria o frame principal
 main_frame = ttk.Frame(root, padding=10)
@@ -349,7 +351,7 @@ def start_video_processing():
     mp_draw = mp.solutions.drawing_utils # Importa as ferramentas de desenho do MediaPipe
 
    # Define o label (interface) do Tkinter
-    video_label = ttk.Label(root)  # Coloca o vídeo no label principal (root)
+    video_label = ttk.Label(root, anchor="center")  # Coloca o vídeo no label principal (root)
     video_label.pack(side="bottom", fill="both", expand=True, padx=10, pady=10)  # Posiciona o vídeo
 
     def update_video():
@@ -518,7 +520,7 @@ def start_video_processing():
                     texto = "Bracos: "+ 'D_frente e E_dobrado'
                     coord1 = 10
                     coord2 = 300
-                    pose_atual_braco = 'arm06'
+                    pose_atual_braco = 'arm08'
                     funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
                 else:
                     cor = (255, 105, 180)
@@ -534,7 +536,7 @@ def start_video_processing():
                     texto = "Bracos: "+ 'E_frente e D_dobrado'
                     coord1 = 10
                     coord2 = 300
-                    pose_atual_braco = 'arm06'
+                    pose_atual_braco = 'arm08'
                     funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
                 else:
                     cor = (255, 105, 180)
@@ -603,7 +605,7 @@ def start_video_processing():
                 texto = "Pernas: "+ 'direita_tras'
                 coord1 = 10
                 coord2 = 250
-                pose_atual_braco = 'leg03'
+                pose_atual_braco = 'leg02'
                 funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             elif distancia(peEX,joelhoEX,peEY,joelhoEY) <70:
@@ -611,7 +613,7 @@ def start_video_processing():
                 texto = "Pernas: "+ 'esquerda_tras'
                 coord1 = 10
                 coord2 = 250
-                pose_atual_braco = 'leg03'
+                pose_atual_braco = 'leg02'
                 funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
 
             else:                
