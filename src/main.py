@@ -114,8 +114,8 @@ def choose_song():
             if song == song_name:
                 current_song_index = index
 
-        main_frame.grid_forget()  
-        music_player_frame.grid(row=0, column=0)  
+        main_frame.pack_forget()  # Esconde o main_frame
+        music_player_frame.pack(fill="both", expand=True)   
 
         pygame.mixer.music.load(song_path)
         pygame.mixer.music.play(loops=0, start=0.0)
@@ -249,8 +249,8 @@ def stop_song():
     pygame.mixer.music.stop()
     play_button.config(text="Pausar")
     isPlaying = False
-    music_player_frame.grid_forget()
-    main_frame.grid(row=0, column=0)  
+    music_player_frame.pack_forget()  # Esconde o music_player_frame
+    main_frame.pack(fill="both", expand=True) 
 
 
 '''
@@ -261,54 +261,51 @@ def stop_song():
 
 # Cria a janela principal
 root = tk.Tk()
+
 root.attributes('-fullscreen', False)
+
+style = ttk.Style()
+style.theme_use("clam")
+style.configure("TButton", font=("Comic Sans MS", 12), padding=5)
+style.configure("TLabel", font=("Comic Sans MS", 14))
+style.configure("TFrame", background="#f0f0f0")
 
 # Cria o frame principal
 main_frame = ttk.Frame(root, padding=10)
-main_frame.grid()
+main_frame.pack(fill="both", expand=True)
 
 # Rótulo de título
-ttk.Label(main_frame, text="ROBÔ DANÇANTE").grid(column=3, row=3)
+title_label = ttk.Label(main_frame, text="ROBÔ DANÇANTE")
+title_label.pack(pady=10)  # Adiciona espaçamento vertical ao redor do título
 
 # Botão para escolher a música
 choose_song_button = ttk.Button(main_frame, text="Escolher música", command=choose_song)
-choose_song_button.grid(column=3, row=4)
-
-# Botão para alternar para tela cheia
-full_screen_button = ttk.Button(main_frame, text="Tela cheia", command=toggle_full_screen)
-full_screen_button.grid(column=3, row=5)
-
-# Botão para sair do programa
-exit_button = ttk.Button(main_frame, text="Sair", command=root.destroy)
-exit_button.grid(column=3, row=6)
+choose_song_button.pack(pady=10)  # Adiciona espaçamento vertical ao redor do botão
 
 # Cria o frame do player de música (inicialmente oculto)
 music_player_frame = ttk.Frame(root, padding=10)
 
 song_status = ttk.Label(music_player_frame)
-song_status.grid(column=1, row=0)
+song_status.pack(pady=5)  # Adiciona espaçamento vertical
 
 song_label = ttk.Label(music_player_frame)  
-song_label.grid(column=1, row=1)
+song_label.pack(pady=5)
 
-next_button = ttk.Button(music_player_frame, text="Anterior", command=previous_song)
-next_button.grid(column=1, row=2)
+# Frame para organizar os botões lado a lado
+buttons_frame = ttk.Frame(music_player_frame)
+buttons_frame.pack(pady=5)
 
-play_button = ttk.Button(music_player_frame, text="Pausar", command=play_pause_song)
-play_button.grid(column=1, row=3)
+# Botão para música anterior
+previous_button = ttk.Button(buttons_frame, text="Anterior", command=previous_song)
+previous_button.pack(side="left", padx=5)
 
-next_button = ttk.Button(music_player_frame, text="Próxima", command=next_song)
-next_button.grid(column=1, row=4)
+# Botão para pausar ou tocar a música
+play_button = ttk.Button(buttons_frame, text="Pausar", command=play_pause_song)
+play_button.pack(side="left", padx=5)
 
-stop_button = ttk.Button(music_player_frame, text="Encerrar player", command=stop_song)
-stop_button.grid(column=1, row=5)
-
-full_screen_button_music = ttk.Button(music_player_frame, text="Tela cheia", command=toggle_full_screen)
-full_screen_button_music.grid(column=1, row=6)
-
-exit_button_music = ttk.Button(music_player_frame, text="Sair", command=root.destroy)
-exit_button_music.grid(column=1, row=7)
-
+# Botão para próxima música
+next_button = ttk.Button(buttons_frame, text="Próxima", command=next_song)
+next_button.pack(side="left", padx=5)
 
 '''
 =========================================================
@@ -351,9 +348,9 @@ def start_video_processing():
     pose = mp_pose.Pose(min_tracking_confidence=0.5, min_detection_confidence=0.5) # Parametros da função
     mp_draw = mp.solutions.drawing_utils # Importa as ferramentas de desenho do MediaPipe
 
-    # Define o label (interface) do Tkinter 
-    video_label = ttk.Label(root) # Colocar o video no label principal (root)
-    video_label.grid(row=0, column=1) # Posiciona o video no label
+   # Define o label (interface) do Tkinter
+    video_label = ttk.Label(root)  # Coloca o vídeo no label principal (root)
+    video_label.pack(side="bottom", fill="both", expand=True, padx=10, pady=10)  # Posiciona o vídeo
 
     def update_video():
         ret, frame = video.read() # Inicializa leitura do vídeo
