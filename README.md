@@ -1,107 +1,104 @@
-<div align="center">
-<img align="left" img src="assets/robo.png" width="120"  height="120" alt="Robô dançando" />
 
-# Projeto de Microcontroladores: Robô dançante
+# Dancing Robot  
+This project was developed as the final activity for the Microcontrollers Project class at PUC-Rio, Brazil. It showcases the integration of Arduino and MediaPipe to create a humanoid dancing robot that mimics human movements. The project was conceived as an idea aligned with this year's class theme, Interactive Art.  
 
-<span style="text-decoration:none color:black;">[Gabriela Scofield](https://github.com/GabiScof)</span>, <span style="text-decoration:none; color:black;">[Aurora Richaud](https://github.com/aurorarichaud
-)</span>, <span style="text-decoration:none; color:black;">[Bruno Pinto](https://github.com/brunobpinto)</span> e <span style="text-decoration:none; color:black;">[Gabriel Valente](https://github.com/gvalente02)</span>
-
-</div>
-
-<br>
-<br>
-
-<div>
-    <h2 style="font-family: Arial, sans-serif; color: #333; border-bottom: 2px solid #007BFF; padding-bottom: 5px; margin-bottom: 15px;">
-        Breve descrição
-    </h2>
-
-  <p style="text-align: left;">
-    Elaboração de um robô que copia os movimentos de dança do usuário. 
-  </p>
-</div>
-
-<br>
-<br>
-
-<div>
-    <h2 style="font-family: Arial, sans-serif; color: #333; border-bottom: 2px solid #007BFF; padding-bottom: 5px; margin-bottom: 15px;">
-        Pilares do Projeto
-    </h2>
-
-  <p style="text-align: left;">
-    O projeto foi elaborado com base em três grandes pilares, cada um responsável por uma parte fundamental no funcionamento do robô:
-  </p>
-  <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
-      <tr>
-          <th style="background-color: #007BFF; color: white; padding: 10px; text-align: left;">Pilar</th>
-          <th style="background-color: #f1f1f1; padding: 10px; text-align: left;">Descrição</th>
-      </tr>
-      <tr>
-          <td style="padding: 10px; font-weight: bold;">💻 Software</td>
-          <td style="padding: 10px;">Programação da detecção das poses realizadas pelo usuário em <code>Python</code>.</td>
-      </tr>
-      <tr>
-          <td style="padding: 10px; font-weight: bold;">⚙️ Hardware</td>
-          <td style="padding: 10px;">Envio do comando para girar o servo motor pelo programa no <code>Arduino</code> a partir da pose enviada pelo <code>Python</code>.</td>
-      </tr>
-      <tr>
-          <td style="padding: 10px; font-weight: bold;">🛠️ Prototipagem</td>
-          <td style="padding: 10px;">Impressão 3D das peças para montar o robô, com servos e peças.</td>
-      </tr>
-  </table>
-
-</div>
-<br>
-<br>
-<div>
-   <h2 style="font-family: Arial, sans-serif; color: #333; border-bottom: 2px solid #007BFF; padding-bottom: 5px; margin-bottom: 15px;">
-        Pré-Requisitos
-    </h2>
-<p>
-      
-Antes de começar, certifique-se de que você tem o seguinte configurado:
-
-### Softwares necessários:
-- **Python 3.8 ou superior**
-- **Arduino IDE**
-
-### Hardware necessário:
-- Placa Arduino (ou compatível).
-- Servo motor.
-- Cabo USB para Arduino.
-- Peças impressas em 3D.
+## Video  
+Watch the robot in action in the video below:
 
 
-</p>
+## Features  
+- Humanoid robot capable of imitating human movements.  
+- Motion capture powered by MediaPipe for precise tracking.  
+- Controlled via Arduino, ensuring smooth and responsive movements.  
+- Fully 3D-printed components for a customizable and modular design.  
+- Themed around Interactive Art, blending technology and creativity.  
+<br><br>
+## Getting Started  
 
-</div>
-<br>
-<br>
-<div>
-   <h2 style="font-family: Arial, sans-serif; color: #333; border-bottom: 2px solid #007BFF; padding-bottom: 5px; margin-bottom: 15px;">
-        Configurações iniciais
-    </h2>
+### Hardware Requirements  
+- Arduino microcontroller (e.g., Arduino Mega or Uno).  
+- 12 Servo motors (SG90 and MG90S models).
+- 16-Channel 12-bit PWM and Servo Shield for Arduino
+- Power supply for the servos and Arduino.  
+- Camera for motion capture (any standard webcam, including built-in laptop cameras).
+- Structure and pole to securely hold the robot in the air during operation.
+- Structural components: 3D-printed parts (see below).
+  
+> [!WARNING]
+> While the Arduino Uno may work, it is recommended to use an Arduino Mega due to its larger SRAM (8 KB vs. 2 KB on the Uno), which provides better performance and stability for memory-intensive tasks.
 
-<p>
 
-  ### Bibliotecas e dependências:
-- Para instalar as dependências do Python, execute:
-  <br>
-  ```bash
-  pip install -r requirements.txt
+### Software Requirements  
+- Arduino IDE for microcontroller programming.  
+- Python 3.8 or later. 
 
-### Configurações no Arduino:
 
-Antes de executar o projeto, certifique-se de configurar corretamente a porta serial do Arduino. A porta serial varia dependendo do sistema operacional e da conexão com o Arduino.
+### 3D Printed Files  
+All 3D-printed files can be found in the `/3D_Files` directory.  
 
-1. Abra o arquivo principal do código Python `main.py`
-2. Localize o seguinte trecho de código:
+> [!TIP]
+> Since the 3D files of the robot are symmetrical, you can simply open the SLDPRT files and mirror them to create both sides of the robot. Afterward, save the mirrored parts as STL files and you're ready to print! 
+<div>‎</div>
+
+## Installation  
+### Setup Arduino:
+   - Connect the servos to the PWM Servo Shield board.
+   - Install the [Adafruit-PWM-Servo-Driver-Library](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library)
+   - Upload the provided Arduino code using the Arduino IDE.  
+
+### Install Dependencies:
+   - To install the Python dependencies, run the following command:  
+     ```bash
+     pip install -r requirements.txt
+     ```  
+
+### Arduino COM Settings:
+Before running the project, make sure to correctly configure the Arduino's serial port. The serial port may vary depending on the operating system and the connection to the Arduino.
+1. Open the main Python code file, main.py.
+2. Locate the following code snippet:
     ```python
     try:
-        arduino = serial.Serial("COM5", baudrate=9600) #Alterar porta de acordo com dispositivo
-3. Substitua `'COM5'` pela porta serial do seu Arduino:
+    arduino = serial.Serial("COM5", baudrate=9600)  # Change port according to your device
+    ```
+3. Replace **'COM5'** with the serial port of your Arduino.
+
+### 3D Printing and Assembly Components:
+   - Ensure that the robot is fully printed and assembled correctly, and that each servo is connected to the correct pwm port.  
+   - And make sure the camera is connected and communicating with the code.
+
+### Run the Project:
+   - Execute the main.py file to start motion capture and servo control.  
+<br><br>
 
 
 
+## How It Works  
+### Motion Capture and Pose Detection
+- MediaPipe captures keypoints of human movements in real time via a camera.
+- By analyzing the angles of the joints, it detects pre-programmed poses and synchronizes them with the music's rhythm.
 
+### Beat Detection and Rhythm Syncing
+- The Python code running on the computer detects the beat of the music and establishes the rhythm.
+- This timing determines when each pose should be sent to the Arduino for execution.
+
+### Servo Control and Synchronization
+- The Arduino receives pose data via serial communication.
+- It moves the robot’s servos in sync with the rhythm to perform the correct movements.
+
+### 3D Printing and Assembly
+- The robot's frame is constructed using 3D-printed parts.
+- This provides a lightweight and modular structure for easy customization and assembly.
+
+## Schematic  
+![Esquematica_C1](https://github.com/user-attachments/assets/0bdd85e5-f58a-4a6f-9251-33518e6e0c97)
+
+
+## Contributors  
+We would like to extend our heartfelt thanks to everyone who contributed to the development of this project. Your support, ideas, and dedication were essential in bringing this robot to life.
+
+- [@aurorarichaud](https://github.com/aurorarichaud)
+- [@brunobpinto](https://github.com/brunobpinto)
+- [@gvalente02](https://github.com/gvalente02)
+- [@GabiScof](https://github.com/GabiScof)
+
+Thank you all for your hard work and collaboration!
