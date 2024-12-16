@@ -35,12 +35,12 @@ def serial_monitora(arduino):
         print(texto_recebido)
 
 
-def enviar_hue(hue):
-    envia_string("Hue %d\n"%hue)
+def enviar_hue(arduino,hue):
+    envia_string(arduino, "Hue %d\n"%hue)
 
 
-def enviar_brightness(brightness):
-    envia_string("Brightness %d\n"%brightness)
+def enviar_brightness(arduino, brightness):
+    envia_string(arduino, "Brightness %d\n"%brightness)
 
-def enviar_batida():
-    envia_string("Batida\n")
+def enviar_batida(arduino):
+    envia_string(arduino, "Batida\n")

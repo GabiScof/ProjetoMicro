@@ -32,7 +32,7 @@ from src.utils.distancia import distancia
 '''
 
 try:
-    arduino = serial.Serial("COM8", baudrate=9600, timeout=0.4) #Alterar porta de acordo com dispositivo
+    arduino = serial.Serial("COM5", baudrate=9600, timeout=0.4) #Alterar porta de acordo com dispositivo
     time.sleep(2)
     print("Conexão estabelecida com o Arduino.")
 except Exception as e:
@@ -138,14 +138,14 @@ def update_time():
             current_time_s = pygame.mixer.music.get_pos() / 1000
 
             if current_time_s >= states_count * current_state_time and current_time_s <= current_song_info["total_time_length"]:
-                enviar_hue(current_song_info["hue"][hue_brightness_index])
-                enviar_brightness(current_song_info["brightness"][hue_brightness_index])
+                enviar_hue(arduino, current_song_info["hue"][hue_brightness_index])
+                enviar_brightness(arduino, current_song_info["brightness"][hue_brightness_index])
                 states_count += 1 
                 hue_brightness_index += 1
                 
 
             elif current_time_s >= current_song_info["beats"][beats_index]:
-                enviar_batida()
+                enviar_batida(arduino)
                 beats_index += 1
 
         except:
