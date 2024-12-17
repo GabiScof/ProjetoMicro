@@ -7,12 +7,13 @@ def envia_pose(arduino, pose_perna, pose_braco):
     ''' 
     Função que envia a pose (string) para o Arduino.
 
-    É necessário indicar a pose de qual membro do corpo estamos enviando,
-    pois a função no Arduino foi definida de forma que precisa receber 
-    um identificador para saber se deve executar os movimentos das pernas ou braços.
+    O Arduino recebe as poses no seguinte padrão: "Movimento pose_da_perna pose_do_braço"
+
+   "Movimento" --> string em que é a primeira palavra e define a string interia como string de poses.
+    pose_da_perna --> variável com a pose atual das pernas
+    pose_do_braço --> variável com a pose atual dos braços
     '''
     arduino.write(('Movimento ' + str(pose_perna) + " " + str(pose_braco) +"\n").encode("UTF-8") )  
-    # print('Enviado pro arduino!')
     return 
 
 
@@ -36,11 +37,20 @@ def serial_monitora(arduino):
 
 
 def enviar_hue(arduino,hue):
+    '''
+    Função que envia para o Arduino a variável hue da música.
+     '''
     envia_string(arduino, "Hue %d\n"%hue)
 
 
 def enviar_brightness(arduino, brightness):
+    '''
+    Função que envia para o Arduino a variável de brightness da música.
+    '''
     envia_string(arduino, "Brightness %d\n"%brightness)
 
 def enviar_batida(arduino):
+    '''
+    Função que envia para o Arduino um indicador de que houve uma batida na música.
+    '''
     envia_string(arduino, "Batida\n")

@@ -317,21 +317,6 @@ next_button.pack(side="left", padx=5)
 
 pose_atual_braco = None
 pose_atual_perna = None
-pose_anterior_braco = "Nada"
-pose_anterior_perna = "Nada"
-
-
-ultimo_tempo_deteccao = time.time()
-ultimo_tempo_deteccao_perna = time.time()
-
-contador = 0 
-contador_perna = 0
-
-impressa = False
-impressa_perna = False
-
-
-
 
 '''
 =========================================================
@@ -371,18 +356,7 @@ def start_video_processing():
             global pose_atual_braco
             global pose_atual_perna
 
-            global pose_anterior_braco
-            global pose_anterior_perna
-
-            global ultimo_tempo_deteccao
-            global ultimo_tempo_deteccao_perna
-
-            global contador
-            global contador_perna
-
-            global impressa
-            global impressa_perna
-
+            # Chama as variáveis globais da música
             global beats_index
             global beat_anterior
 
@@ -502,9 +476,9 @@ def start_video_processing():
             
 
             #-----------------------------------------------------------------------------------------------------------------------------------
-            # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses dos Bracos
+            # DETECÇÃO DA POSES DOS BRAÇOS
 
-            #detecado = False
+            # Verifica se tem posição com mãos para frente, caso contrário, percorre dicionário de poses.
 
             if distancia(ombroDX,maoDX,ombroDY,maoDY) <70 and distancia(ombroEX,maoEX,ombroEY,maoEY) <70 and distancia(ombroDX,cotoveloDX,ombroDY,cotoveloDY) <70 and distancia(ombroEX,cotoveloEX,ombroEY,cotoveloEY) <70:
                 cor = (255, 105, 180)
@@ -549,56 +523,17 @@ def start_video_processing():
             else:                
                 for movimento, angulos in dicionario_poses.items():
                     if angulos["condicao"](anguloBEC, anguloBEB, anguloBDC, anguloBDB):
-                        #detecado = True
                         cor = (255, 105, 180)
                         texto = "Bracos: "+ movimento
                         coord1 = 10
                         coord2 = 300
                         pose_atual_braco = angulos["nome"]
                         funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
-
-
-            #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
-            #         if pose_atual_braco == pose_anterior_braco:
-            #             contador +=1
-
-            #         # Verifica que a pose está há um tempo (contador) e que ainda não foi impressa
-            #         if contador > 6 and not impressa:
-            #             impressa = True # Indica que já foi impressa
-            #             print('MEXEU BRACO: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco)) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
-            #             # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
-
-            #         # Verifica que a pose atual é diferente da pose anterior
-            #         if pose_atual_braco != pose_anterior_braco:
-            #             contador = 0 # Reseta contador
-            #             impressa = False # Indica que ainda não foi impressa (já que é pose nova)
-            #             pose_anterior_braco = pose_atual_braco # Atualiza a pose anterior
-            #             ultimo_tempo_deteccao = time.time() # Salva tempo de troca de pose
-            #         break
-
-            # if not detecado: # Verifica que nenhuma pose foi detectada
-            #     if (time.time() - ultimo_tempo_deteccao > 3) and pose_atual_braco != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
-            #         pose_atual_braco = 'Nada'
-            #         print('MEXEU BRACO: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))  # Apenas imprime "Nada" após 3 segundos de inatividade
-            #         # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
-
-       
             #-----------------------------------------------------------------------------------------------------------------------------------
-            
-            # Percorrer o dicionário e ver se a pessoa está fazendo uma das poses das PERNAS
-            # print(distancia(ombroDX,maoDX,ombroDY,maoDY))
 
-            #detecado_perna = False
+            # DETECÇÃO DA POSES DAS PERNAS
 
-
-
-            # if distancia(peDX,joelhoDX,peDY,joelhoDY) <70 and distancia(peEX,joelhoEX,peEY,joelhoEY) <70:
-            #     cor = (255, 105, 180)
-            #     texto = "Pernas: "+ 'ambos_tras'
-            #     coord1 = 10
-            #     coord2 = 250
-            #     pose_atual_braco = 'leg04'
-            #     funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
+            # Verifica se tem posição com pernas para frente, caso contrário, percorre dicionário de poses.
 
             if distancia(peDX,joelhoDX,peDY,joelhoDY) <70:
                 cor = (255, 105, 180)
@@ -619,61 +554,19 @@ def start_video_processing():
             else:                
                 for movimento, angulos in dicionario_poses_pernas.items():
                     if angulos["condicao"](anguloPEC, anguloPDC):
-                        #detecado_perna = True
                         cor = (255, 105, 180)
                         texto = "Pernas: "+ movimento
                         coord1 = 10
                         coord2 = 250
                         pose_atual_perna = angulos["nome"]
                         funcao_texto(texto.replace("_", " "), cor, frame, coord1, coord2)
-                    
 
-            # if anguloPDC >=10  or anguloPEC>=10:
-            #     cor = (255, 105, 180)
-            #     texto = "dobrado"
-            #     coord1 = 10
-            #     coord2 = 250
-            #     pose_atual_perna = movimento
-            #     funcao_texto(texto, cor, frame, coord1, coord2)
 
-            # if anguloPDC <=10  and anguloPEC<=10:
-            #     cor = (255, 105, 180)
-            #     texto = "retas"
-            #     coord1 = 10
-            #     coord2 = 250
-            #     pose_atual_perna = movimento
-            #     funcao_texto(texto, cor, frame, coord1, coord2)
-
-            
+            # Somente envia a pose quando uma batida da música for detectada.
 
             if beats_index > beat_anterior:
                 print('Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))
-                envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
-
-            #         # Utilização de um contador para ver se a pose está sendo efeituada há um tempo
-            #         if pose_atual_perna == pose_anterior_perna:
-            #             contador_perna +=1
-
-            #         # Verifica que a pose está há um tempo (contador_perna) e que ainda não foi impressa
-            #         if contador_perna > 10 and not impressa_perna:
-            #             impressa_perna = True # Indica que já foi impressa
-            #             print('MEXEU PERNA: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco)) # Descomentar caso queira ver no terminal, invés de ver no Arduino.
-            #             # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
-
-
-            #         # Verifica que a pose atual é diferente da pose anterior
-            #         if pose_atual_perna != pose_anterior_perna:
-            #             contador_perna = 0 # Reseta contador_perna
-            #             impressa_perna = False # Indica que ainda não foi impressa (já que é pose nova)
-            #             pose_anterior_perna = pose_atual_perna # Atualiza a pose anterior
-            #             ultimo_tempo_deteccao_perna = time.time() # Salva tempo de troca de pose
-            #         break
-
-            # if not detecado_perna: # Verifica que nenhuma pose foi detectada
-            #     if (time.time() - ultimo_tempo_deteccao_perna > 3) and pose_atual_perna != 'Nada': # Verifica que a pose atual já não era 'Nada' (pois queremos imprimir só 1 vez)
-            #         pose_atual_perna = 'Nada'
-            #         print('MEXEU PERNA: '+ 'Movimento ' + str(pose_atual_perna) + " " + str(pose_atual_braco))  # Apenas imprime "Nada" após 3 segundos de inatividade
-            #         # envia_pose(arduino, pose_atual_perna, pose_atual_braco) # BACALHAU
+                envia_pose(arduino, pose_atual_perna, pose_atual_braco)
 
             beat_anterior = beats_index
 

@@ -67,26 +67,6 @@ dicionario_poses = {
         ),
         "nome": "arm01"
     },
-    # "formato_S":
-    # {
-    #     "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
-    #         (90 - 30) <= anguloBDC <= (90 + 30) and
-    #         (0 - 30) <= anguloBDB <= (0 + 30) and
-    #         (90 - 30) <= anguloBEC <= (90 + 30) and
-    #         (180 - 30) <= anguloBEB <= (180 + 30)
-    #     ),
-    #     "nome": "arm02"
-    # },
-    # "formato_S_espelhado":
-    # {
-    #     "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
-    #         (90 - 30) <= anguloBEC <= (90 + 30) and
-    #         (0 - 30) <= anguloBEB <= (0 + 30) and
-    #         (90 - 30) <= anguloBDC <= (90 + 30) and
-    #         (180 - 30) <= anguloBDB <= (180 + 30)
-    #     ),
-    #     "nome": "arm02"
-    # },
     "disco_move":
     {
         "condicao": lambda anguloBEC, anguloBEB, anguloBDC, anguloBDB: (
